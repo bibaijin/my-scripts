@@ -1,11 +1,12 @@
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
+
 import           Data.String
-import           Data.Text           (Text)
--- import qualified Data.Text           as T
+import qualified Data.Text           as T
 import           Options.Applicative
 import           Shelly
+default (T.Text)
 
 main :: IO ()
 main = execParser opts >>= dotPreview
@@ -25,10 +26,7 @@ arg = Arguments
   <$> argument str (metavar "FILE")
 
 dotPreview :: Arguments -> IO ()
-dotPreview (Arguments filename) =
-    shelly $ verbosely $ do
-       run_ "dot" [ "-Tpng", fromString filename
-                  , "-o", "tmp.png"
-                  ]
-       run_ "feh" [ "-.", "tmp.png" ]
-       run_ "rm" [ "tmp.png" ]
+dotPreview (Arguments filename) = shelly $ verbosely $ do
+  cmd "dot" "-Tpng" (fromString filename) "-o" "tmp.png"
+  cmd "feh" "-." "tmp.png"
+  cmd "rm" "tmp.png"
