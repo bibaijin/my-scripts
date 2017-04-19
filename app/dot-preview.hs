@@ -2,6 +2,7 @@
 {-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
+import           Data.Semigroup      ((<>))
 import           Data.String
 import qualified Data.Text           as T
 import           Options.Applicative

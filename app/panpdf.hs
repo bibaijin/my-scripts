@@ -4,6 +4,7 @@
 import           Data.String
 import           Data.Text           (Text)
 -- import qualified Data.Text           as T
+import           Data.Semigroup      ((<>))
 import           Options.Applicative
 import           Shelly
 import           System.Directory

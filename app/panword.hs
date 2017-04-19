@@ -1,6 +1,7 @@
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
+import           Data.Semigroup      ((<>))
 import           Data.String
 import           Data.Text           (Text)
 -- import qualified Data.Text           as T
