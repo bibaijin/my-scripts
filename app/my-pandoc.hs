@@ -19,12 +19,12 @@ data ToFormat = RevealJs
   deriving (Show)
 
 main :: IO ()
-main = mpandoc =<< execParser opts
+main = myPandoc =<< execParser opts
   where
     opts = info (options <**> helper)
       ( fullDesc
-     <> progDesc "pandoc with custom configuration"
-     <> header "mpandoc - my-pandoc" )
+     <> progDesc "Convert file format"
+     <> header "my-pandoc - pandoc with my custom configuration" )
 
 options :: Parser Options
 options = Options
@@ -38,6 +38,11 @@ options = Options
      <> short 'o'
      <> metavar "FILENAME"
      <> help "File to write to" )
+  <*> strOption
+      ( long "configuration"
+      <> short 'c'
+      <> metavar "FILENAME"
+      <> help "Configuration file")
   <*> argument str
       ( metavar "FILE" )
 
@@ -46,8 +51,8 @@ parseToFormat = eitherReader $ \s -> case s of
   "revealjs" -> Right RevealJs
   _ -> Left "invalid format to convert to, available formats are: revealjs"
 
-mpandoc :: Options -> IO ()
-mpandoc (Options RevealJs outputFilename inputFilename) = do
+myPandoc :: Options -> IO ()
+myPandoc (Options RevealJs outputFilename inputFilename) = do
   putStrLn $ "outputFilename: " ++ outputFilename ++ ", inputFilename: " ++ inputFilename
   putStrLn $ markdownToRevealJs "hello"
 
@@ -57,8 +62,8 @@ markdownToRevealJs =
     def
     { writerSlideVariant = RevealJsSlides
     , writerIncremental = True
-    , writerHTMLMathMethod = MathJax
-    , writerVariables = ["revealjs-url", ""]
+    -- , writerHTMLMathMethod = MathJax
+    -- , writerVariables = ["revealjs-url", ""]
     } .
   readPandoc
 
